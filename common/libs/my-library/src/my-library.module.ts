@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtStrategy } from "./jwt.strategy";
@@ -12,7 +12,7 @@ import { MyLibraryService } from "./my-library.service";
       signOptions: { expiresIn: "60s" },
     }),
   ],
-  providers: [MyLibraryService, JwtAuthGuard, JwtStrategy],
-  exports: [MyLibraryService, JwtAuthGuard, JwtStrategy],
+  providers: [MyLibraryService, JwtAuthGuard, JwtStrategy, JwtService],
+  exports: [MyLibraryService, JwtAuthGuard, JwtStrategy, JwtService],
 })
 export class MyLibraryModule {}
