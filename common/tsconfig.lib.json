@@ -2,7 +2,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "declaration": true,
-    "declarationMap": false,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
     "sourceMap": false,
     "module": "CommonJS",
     "target": "ES2020",
