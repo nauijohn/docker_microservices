@@ -1,12 +1,13 @@
 {
   "name": "@nauijohn/docker_microservices_common",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "author": "John Anthony Naui",
   "license": "UNLICENSED",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
+  "repository": "https://github.com/nauijohn/docker_microservices",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
