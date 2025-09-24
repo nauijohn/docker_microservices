@@ -1,0 +1,51 @@
+name: users
+
+services:
+  service:
+    container_name: users_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 3001:3001
+    environment:
+      - PORT=3001
+      - NODE_ENV=development
+    env_file:
+      - ./.env
+    develop:
+      watch:
+        - path: ./src
+          action: sync
+          target: /app/src
+    depends_on:
+      - users_db
+    networks:
+      - users_network
+
+  users_db:
+    image: mysql:8.0
+    container_name: users_db
+    restart: always
+    logging:
+      driver: "none"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: users_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    ports:
+      - 3307:3306
+    networks:
+      - users_network
+    volumes:
+      - type: volume
+        source: users_mysql_data
+        target: /var/lib/mysql
+
+volumes:
+  users_mysql_data:
+
+networks:
+  users_network:

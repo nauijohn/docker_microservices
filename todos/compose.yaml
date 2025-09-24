@@ -1,0 +1,51 @@
+name: todos
+
+services:
+  todos:
+    container_name: todos_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+    env_file:
+      - ./.env
+    develop:
+      watch:
+        - path: ./src
+          action: sync
+          target: /app/src
+    depends_on:
+      - todos_db
+    networks:
+      - todos_network
+
+  todos_db:
+    image: mysql:8.0
+    container_name: todos_db
+    restart: always
+    logging:
+      driver: "none"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: todos_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    ports:
+      - 3306:3306
+    networks:
+      - todos_network
+    volumes:
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+
+volumes:
+  mysql_data:
+
+networks:
+  todos_network:
