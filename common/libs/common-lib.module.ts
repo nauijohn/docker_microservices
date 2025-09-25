@@ -1,14 +1,17 @@
 import { Module } from "@nestjs/common";
-import { JwtModule, JwtService } from "@nestjs/jwt";
+import { JwtModule } from "@nestjs/jwt";
 
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtStrategy } from "./jwt.strategy";
 
 @Module({
-  imports: [JwtModule],
-  providers: [JwtAuthGuard, JwtStrategy, JwtService],
-  exports: [JwtAuthGuard, JwtStrategy, JwtService],
+  imports: [
+    JwtModule.register({
+      secret: "superSecretKey",
+      signOptions: { expiresIn: "60m" },
+    }),
+  ],
+  providers: [JwtAuthGuard, JwtStrategy],
+  exports: [JwtAuthGuard, JwtStrategy, JwtModule],
 })
-export class CommonLibModule {
-  static jwt = JwtModule;
-}
+export class CommonLibModule {}

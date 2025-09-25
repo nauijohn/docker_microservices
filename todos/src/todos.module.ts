@@ -1,5 +1,6 @@
 import * as Joi from "joi";
 
+import { MyLibraryModule } from "@nauijohn/docker_microservices_common";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -42,6 +43,7 @@ import { TodosService } from "./todos.service";
       },
     }),
     TypeOrmModule.forFeature([Todo]),
+    MyLibraryModule,
   ],
   controllers: [TodosController],
   providers: [TodosService],

@@ -1,7 +1,7 @@
 import * as bcrypt from "bcrypt";
 
+import { JwtService } from "@nauijohn/docker_microservices_common";
 import { Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
 
 import { User, UsersService } from "../users";
 

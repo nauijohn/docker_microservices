@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@nauijohn/docker_microservices_common':
+        specifier: ^0.0.20
+        version: 0.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(passport@0.7.0)
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -17,9 +20,6 @@ importers:
       '@nestjs/core':
         specifier: ^11.0.1
         version: 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/jwt':
-        specifier: ^11.0.0
-        version: 11.0.0(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))
       '@nestjs/mapped-types':
         specifier: ^2.1.0
         version: 2.1.0(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
@@ -50,9 +50,6 @@ importers:
       passport:
         specifier: ^0.7.0
         version: 0.7.0
-      passport-jwt:
-        specifier: ^4.0.1
-        version: 4.0.1
       passport-local:
         specifier: ^1.0.0
         version: 1.0.0
@@ -102,9 +99,6 @@ importers:
       '@types/passport':
         specifier: ^1.0.17
         version: 1.0.17
-      '@types/passport-jwt':
-        specifier: ^4.0.1
-        version: 4.0.1
       '@types/passport-local':
         specifier: ^1.0.38
         version: 1.0.38
@@ -813,6 +807,9 @@ packages:
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
+  '@nauijohn/docker_microservices_common@0.0.20':
+    resolution: {integrity: sha512-cD9L7qMTEkv7ROp1HsuYddSsvGnlVMUgkc7QW9nF3p/B3oZfJYUFIARxnekERIlhOmoKrwxQjwOThZp5pPSdFw==, tarball: https://npm.pkg.github.com/download/@nauijohn/docker_microservices_common/0.0.20/bb42c499864a7ce4ec227aafba4c36dd12c71923}
+
   '@nestjs/cli@11.0.10':
     resolution: {integrity: sha512-4waDT0yGWANg0pKz4E47+nUrqIJv/UqrZ5wLPkCqc7oMGRMWKAaw1NDZ9rKsaqhqvxb2LfI5+uXOWr4yi94DOQ==}
     engines: {node: '>= 20.11'}
@@ -1154,9 +1151,6 @@ packages:
 
   '@types/node@22.18.6':
     resolution: {integrity: sha512-r8uszLPpeIWbNKtvWRt/DbVi5zbqZyj1PTmhRMqBMvDnaz1QpmSKujUtJLrqGZeoM8v72MfYggDceY4K1itzWQ==}
-
-  '@types/passport-jwt@4.0.1':
-    resolution: {integrity: sha512-Y0Ykz6nWP4jpxgEUYq8NoVZeCQPo1ZndJLfapI249g1jHChvRfZRO/LS3tqu26YgAS/laI1qx98sYGz0IalRXQ==}
 
   '@types/passport-local@1.0.38':
     resolution: {integrity: sha512-nsrW4A963lYE7lNTv9cr5WmiUD1ibYJvWrpE13oxApFsRt77b0RdtZvKbCdNIY4v/QZ6TRQWaDDEwV1kCTmcXg==}
@@ -4646,6 +4640,24 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
+  '@nauijohn/docker_microservices_common@0.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(passport@0.7.0)':
+    dependencies:
+      '@nestjs/common': 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/jwt': 11.0.0(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))
+      '@nestjs/passport': 11.0.5(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(passport@0.7.0)
+      '@nestjs/platform-express': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)
+      passport-jwt: 4.0.1
+      reflect-metadata: 0.2.2
+      rxjs: 7.8.2
+    transitivePeerDependencies:
+      - '@nestjs/microservices'
+      - '@nestjs/websockets'
+      - class-transformer
+      - class-validator
+      - passport
+      - supports-color
+
   '@nestjs/cli@11.0.10(@swc/cli@0.7.8(@swc/core@1.13.5)(chokidar@4.0.3))(@swc/core@1.13.5)(@types/node@22.18.6)':
     dependencies:
       '@angular-devkit/core': 19.2.15(chokidar@4.0.3)
@@ -5015,11 +5027,6 @@ snapshots:
   '@types/node@22.18.6':
     dependencies:
       undici-types: 6.21.0
-
-  '@types/passport-jwt@4.0.1':
-    dependencies:
-      '@types/jsonwebtoken': 9.0.7
-      '@types/passport-strategy': 0.2.38
 
   '@types/passport-local@1.0.38':
     dependencies:

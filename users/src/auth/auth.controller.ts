@@ -1,8 +1,8 @@
 import type { Request } from "express";
 
+import { JwtAuthGuard } from "@nauijohn/docker_microservices_common";
 import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 
-import { JwtAuthGuard } from "../../../common/libs/my-library/src/jwt-auth.guard";
 import { User, UsersService } from "../users";
 import { AuthService } from "./auth.service";
 import { SignUpDto } from "./dto/sign-up.dto";

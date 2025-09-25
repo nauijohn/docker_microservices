@@ -1,5 +1,4 @@
 import { Observable } from "rxjs";
-import { User } from "src/users";
 
 import {
   ExecutionContext,
@@ -7,6 +6,8 @@ import {
   InternalServerErrorException,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+
+import { User } from "../users";
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard("local") {
@@ -17,6 +18,7 @@ export class LocalAuthGuard extends AuthGuard("local") {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    console.log("LocalAuthGuard: canActivate");
     return super.canActivate(context);
   }
 
@@ -29,6 +31,9 @@ export class LocalAuthGuard extends AuthGuard("local") {
   ): TUser {
     console.log("info: ", info);
     console.log("status: ", status);
+
+    console.log("user: ", user);
+    console.log("err: ", err);
 
     if (err) throw err;
 
