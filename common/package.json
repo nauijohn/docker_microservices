@@ -1,6 +1,6 @@
 {
   "name": "@nauijohn/docker_microservices_common",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "",
   "author": "John Anthony Naui",
   "license": "UNLICENSED",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.5",
