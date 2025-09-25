@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
 
 import { ExecutionContext, Injectable } from "@nestjs/common";
-import { TokenExpiredError } from "@nestjs/jwt";
+import { JsonWebTokenError, TokenExpiredError } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
 
 import { JwtUser } from "./jwt.strategy";
@@ -17,7 +17,7 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
   handleRequest<TUser = JwtUser>(
     err: Error,
     user: TUser,
-    info: any,
+    info: unknown,
     context: ExecutionContext,
     status?: any,
   ): TUser {
@@ -27,6 +27,12 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
     console.log("info: ", info);
     console.log("status: ", status);
     console.log("user: ", user);
+
+    if (info) {
+      if (info instanceof JsonWebTokenError) {
+        throw info;
+      }
+    }
 
     if (err) throw err;
 
