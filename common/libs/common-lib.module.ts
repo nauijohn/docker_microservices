@@ -13,6 +13,6 @@ import { JwtStrategy } from "./jwt.strategy";
     }),
   ],
   providers: [JwtAuthGuard, JwtStrategy, JwtService],
-  exports: [JwtAuthGuard, JwtStrategy, JwtService],
+  exports: [JwtModule, JwtAuthGuard, JwtStrategy, JwtService],
 })
 export class CommonLibModule {}
