@@ -24,13 +24,16 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
     console.log("JWT HandleRequest Guard");
 
     console.log("err: ", err);
-    console.log("info: ", info);
     console.log("status: ", status);
     console.log("user: ", user);
 
     if (info) {
       if (info instanceof JsonWebTokenError) {
         throw info;
+      }
+
+      if (!TokenExpiredError) {
+        console.log("info: ", info);
       }
     }
 
