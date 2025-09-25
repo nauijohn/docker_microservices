@@ -1,9 +1,10 @@
-import { JwtUser } from "libs/strategies";
 import { Observable } from "rxjs";
 
 import { ExecutionContext, Injectable } from "@nestjs/common";
 import { JsonWebTokenError, TokenExpiredError } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
+
+import { JwtUser } from "../strategies";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt") {
