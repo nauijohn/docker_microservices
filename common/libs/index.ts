@@ -1,1 +1,1 @@
-export * from "./my-library";
+export * from "./common-lib.module";

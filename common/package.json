@@ -1,6 +1,6 @@
 {
   "name": "@nauijohn/docker_microservices_common",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "",
   "author": "John Anthony Naui",
   "license": "UNLICENSED",
@@ -14,8 +14,7 @@
   ],
   "repository": "https://github.com/nauijohn/docker_microservices",
   "scripts": {
-    "build": "nest build",
-    "build2": "tsc -p tsconfig.lib.json",
+    "build": "rm -r ./dist && tsc -p tsconfig.lib.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -26,7 +25,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "publish2": "pnpm build && pnpm publish --registry=https://npm.pkg.github.com --no-git-checks"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

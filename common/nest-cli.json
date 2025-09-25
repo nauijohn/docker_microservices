@@ -9,11 +9,11 @@
   "projects": {
     "my-library": {
       "type": "library",
-      "root": "libs/my-library",
+      "root": "libs/",
       "entryFile": "index",
-      "sourceRoot": "libs/my-library/src",
+      "sourceRoot": "libs/",
       "compilerOptions": {
-        "tsConfigPath": "libs/my-library/tsconfig.lib.json"
+        "tsConfigPath": "tsconfig.lib.json"
       }
     }
   }
