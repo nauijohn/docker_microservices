@@ -23,21 +23,24 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
   ): TUser {
     console.log("JWT HandleRequest Guard");
 
-    console.log("err: ", err);
-    console.log("status: ", status);
-    console.log("user: ", user);
+    if (status) {
+      console.log("status: ", status);
+    }
 
     if (info) {
       if (info instanceof JsonWebTokenError) {
         throw info;
       }
 
-      if (!TokenExpiredError) {
+      if (!TokenExpiredError && !JsonWebTokenError) {
         console.log("info: ", info);
       }
     }
 
-    if (err) throw err;
+    if (err) {
+      console.log("err: ", err);
+      throw err;
+    }
 
     if (!user) throw new TokenExpiredError("Token expired", new Date());
 
