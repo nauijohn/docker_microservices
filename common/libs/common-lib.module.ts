@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 
-import { JwtAuthGuard } from "./jwt-auth.guard";
-import { JwtStrategy } from "./jwt.strategy";
+import { JwtAuthGuard } from "./guards";
+import { JwtStrategy } from "./strategies";
 
 @Module({
   imports: [
