@@ -13,6 +13,15 @@ import { JwtStrategy } from "./jwt.strategy";
     }),
   ],
   providers: [JwtAuthGuard, JwtStrategy, JwtService],
-  exports: [JwtModule, JwtAuthGuard, JwtStrategy, JwtService],
+  exports: [
+    JwtModule.register({
+      global: true,
+      secret: "topSecretKey",
+      signOptions: { expiresIn: "60s" },
+    }),
+    JwtAuthGuard,
+    JwtStrategy,
+    JwtService,
+  ],
 })
 export class CommonLibModule {}
