@@ -1,7 +1,7 @@
 import * as bcrypt from "bcrypt";
 
-import { JwtService } from "@nauijohn/docker_microservices_common";
 import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 
 import { User, UsersService } from "../users";
 
@@ -32,10 +32,14 @@ export class AuthService {
   }
 
   login(user: User) {
-    console.log("Logging in user:", user);
     const payload = { email: user.email, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  createAccessToken(user: User) {
+    const payload = { email: user.email, sub: user.id };
+    return this.jwtService.sign(payload);
   }
 }

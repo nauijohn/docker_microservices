@@ -1,4 +1,3 @@
-import { JwtAuthGuard } from "@nauijohn/docker_microservices_common";
 import {
   Body,
   Controller,
@@ -10,7 +9,6 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
 } from "@nestjs/common";
 
 import { CreateTodoDto } from "./dtos/create-todo.dto";
@@ -27,7 +25,6 @@ export class TodosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.service.findAll();
   }

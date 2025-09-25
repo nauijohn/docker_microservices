@@ -10,15 +10,18 @@ import { User, UsersModule } from "./users";
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid("development", "production", "test", "provision")
+          .default("development"),
         DB_HOST: Joi.string().required(),
         DB_PORT: Joi.number().default(3306),
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
-        NODE_ENV: Joi.string()
-          .valid("development", "production", "test", "provision")
-          .default("development"),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRES_IN: Joi.string().default("60m"),
       }),
     }),
     TypeOrmModule.forRootAsync({

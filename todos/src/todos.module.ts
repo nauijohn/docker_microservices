@@ -1,8 +1,12 @@
 import * as Joi from "joi";
 
-import { MyLibraryModule } from "@nauijohn/docker_microservices_common";
+import {
+  CommonLibModule,
+  JwtAuthGuard,
+} from "@nauijohn/docker_microservices_common";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { APP_GUARD } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { TodosController } from "./todos.controller";
@@ -43,9 +47,15 @@ import { TodosService } from "./todos.service";
       },
     }),
     TypeOrmModule.forFeature([Todo]),
-    MyLibraryModule,
+    CommonLibModule,
   ],
   controllers: [TodosController],
-  providers: [TodosService],
+  providers: [
+    TodosService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class TodosModule {}

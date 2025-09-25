@@ -1,0 +1,1 @@
+rm -r node_modules && pnpm add @nauijohn/docker_microservices_common@latest
