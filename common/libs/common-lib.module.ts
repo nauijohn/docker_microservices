@@ -5,23 +5,10 @@ import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtStrategy } from "./jwt.strategy";
 
 @Module({
-  imports: [
-    JwtModule.register({
-      global: true,
-      secret: "topSecretKey",
-      signOptions: { expiresIn: "60s" },
-    }),
-  ],
+  imports: [JwtModule],
   providers: [JwtAuthGuard, JwtStrategy, JwtService],
-  exports: [
-    JwtModule.register({
-      global: true,
-      secret: "topSecretKey",
-      signOptions: { expiresIn: "60s" },
-    }),
-    JwtAuthGuard,
-    JwtStrategy,
-    JwtService,
-  ],
+  exports: [JwtAuthGuard, JwtStrategy, JwtService],
 })
-export class CommonLibModule {}
+export class CommonLibModule {
+  static jwt = JwtModule;
+}
