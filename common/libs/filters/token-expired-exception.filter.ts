@@ -16,7 +16,12 @@ export class TokenExpiredExceptionFilter implements ExceptionFilter {
     const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
 
-    console.log("exception: ", exception);
+    console.log("cause: ", exception?.cause);
+    console.log("expiredAt: ", exception?.expiredAt);
+    console.log("inner: ", exception?.inner);
+    console.log("message: ", exception?.message);
+    console.log("name: ", exception?.name);
+    console.log("stack: ", exception?.stack);
 
     const httpStatus =
       exception instanceof HttpException
