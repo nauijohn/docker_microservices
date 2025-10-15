@@ -5,14 +5,14 @@ import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 
 export type JwtPayload = {
-  sub: number;
+  sub: string;
   email: string;
   iat: number;
   exp: number;
 };
 
 export type JwtUser = {
-  id: number;
+  id: string;
   email: string;
 };
 
