@@ -1,1 +1,1 @@
-git add . &&git commit -m "update version" && git push && pnpm publish2
+pnpm version patch && git add . &&git commit -m "update version" && git push && pnpm publish2

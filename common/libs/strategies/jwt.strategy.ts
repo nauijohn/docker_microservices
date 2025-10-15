@@ -4,7 +4,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 
-type JwtPayload = {
+export type JwtPayload = {
   sub: number;
   email: string;
   iat: number;
