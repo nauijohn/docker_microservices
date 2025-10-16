@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:3001
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJzdWIiOiJlMmFlMjkxNS04ZTY1LTRiNjctYjg1NS04Yjk3ZWM0M2MyZjgiLCJpYXQiOjE3NjAyODQ1OTIsImV4cCI6MTc2MDI4NDYwMn0.CuUCzbcThLekveYvczrBWiVGZFYasJyCIa37SWVJ59Q
+
+GET {{baseUrl}}/auth/profile
+
+###
+
+POST {{baseUrl}}/auth/sign-up
+Content-Type: application/json
+
+{
+	"email": "test@test.com",
+	"password": "test"
+}

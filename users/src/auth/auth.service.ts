@@ -1,15 +1,23 @@
-import * as bcrypt from "bcrypt";
-
 import { Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
+import { JwtService, JwtSignOptions } from "@nestjs/jwt";
 
 import { User, UsersService } from "../users";
+import { compare, hash } from "./utils/security";
+
+type TokenPayload = {
+  sub: string;
+  email: string;
+  tokenId?: string;
+};
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
+
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser(
@@ -19,16 +27,10 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
     if (!user) return;
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await compare(password, user.password);
     if (!isMatch) return;
 
     return user;
-  }
-
-  async hashPassword(password: string): Promise<string> {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    return bcrypt.hash(password, salt);
   }
 
   login(user: User) {
@@ -38,8 +40,47 @@ export class AuthService {
     };
   }
 
-  createAccessToken(user: User) {
-    const payload = { email: user.email, sub: user.id };
-    return this.jwtService.sign(payload);
+  createTokens(user: User) {
+    const payload: TokenPayload = {
+      sub: user.id,
+      email: user.email,
+    };
+    const accessToken = this.createToken(payload);
+    const refreshToken = this.createToken(
+      { ...payload, tokenId: user.refreshToken?.id },
+      {
+        secret: this.configService.get("JWT_REFRESH_TOKEN_SECRET"),
+        expiresIn: this.configService.get("JWT_REFRESH_TOKEN_EXPIRES_IN"),
+      },
+    );
+
+    return { accessToken, refreshToken };
+  }
+
+  async refreshTokens(userId: string, token: string) {
+    let user = await this.usersService.findOne(userId);
+    if (!user?.refreshToken) return;
+
+    const isTokenValid = await compare(token, user.refreshToken.token);
+    if (!isTokenValid) return;
+
+    const tokens = this.createTokens(user);
+
+    const hashedRefreshToken = await hash(tokens.refreshToken);
+
+    user = await this.usersService.update({
+      ...user,
+      refreshToken: {
+        ...user.refreshToken,
+        token: hashedRefreshToken,
+      },
+    });
+    if (!user) return;
+
+    return tokens;
+  }
+
+  private createToken(payload: TokenPayload, opts?: JwtSignOptions) {
+    return this.jwtService.sign(payload, opts);
   }
 }

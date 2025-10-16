@@ -5,32 +5,40 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   InternalServerErrorException,
   Post,
   Req,
+  UnprocessableEntityException,
   UseGuards,
 } from "@nestjs/common";
 
+import { RefreshTokensService } from "../refresh-tokens/refresh-tokens.service";
 import { User, UsersService } from "../users";
 import { AuthService } from "./auth.service";
+import { BearerToken } from "./decorators/bearer-token.decorator";
+import { ReqUser } from "./decorators/req-user.decorator";
 import { SignUpDto } from "./dto";
 import { LocalAuthGuard } from "./local-auth.guard";
+import { RefreshTokenGuard } from "./refresh-token.guard";
+import { hash } from "./utils/security";
 
+import type { JwtRefreshUser } from "./refresh-token.strategy";
 @Controller("auth")
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
+    private readonly refreshTokensService: RefreshTokensService,
   ) {}
 
   @Post("sign-up")
   async signUp(@Body() request: SignUpDto) {
     let user = await this.usersService.findByEmail(request.email);
-    if (user) throw new Error("User already exists");
+    if (user) throw new UnprocessableEntityException("User already exists");
 
-    const hashedPassword = await this.authService.hashPassword(
-      request.password,
-    );
+    const hashedPassword = await hash(request.password);
 
     user = await this.usersService.create({
       ...request,
@@ -38,21 +46,81 @@ export class AuthController {
     });
     if (!user) throw new InternalServerErrorException("Error creating user");
 
-    const accessToken = this.authService.createAccessToken(user);
+    const tokens = this.authService.createTokens(user);
 
-    return { accessToken };
+    const hashedRefreshToken = await hash(tokens.refreshToken);
+
+    const refreshToken = await this.refreshTokensService.create({
+      user,
+      token: hashedRefreshToken,
+    });
+    if (!refreshToken)
+      throw new InternalServerErrorException("Error creating refreshToken");
+
+    return tokens;
   }
 
   @Post("sign-in")
+  @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
-  signIn(@Req() req: Request) {
-    const accessToken = this.authService.createAccessToken(req.user as User);
-    return { accessToken };
+  async signIn(@ReqUser() user: User) {
+    let { refreshToken } = user;
+    const tokens = this.authService.createTokens(user);
+
+    const hashedRefreshToken = await hash(tokens.refreshToken);
+
+    if (!refreshToken) {
+      refreshToken = await this.refreshTokensService.create({
+        token: hashedRefreshToken,
+        user,
+      });
+    } else {
+      refreshToken = await this.refreshTokensService.update({
+        id: refreshToken.id,
+        token: hashedRefreshToken,
+      });
+    }
+
+    if (!refreshToken) throw new InternalServerErrorException();
+
+    return tokens;
+  }
+
+  @Post("sign-out")
+  @UseGuards(RefreshTokenGuard)
+  async signOut(@ReqUser() user: JwtRefreshUser) {
+    if (user.tokenId) {
+      await this.refreshTokensService.delete(user.tokenId);
+    }
+  }
+
+  @Post("refresh-token")
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(RefreshTokenGuard)
+  async refreshToken(
+    @ReqUser() reqUser: JwtRefreshUser,
+    @BearerToken() bearerToken: string,
+  ) {
+    const tokens = await this.authService.refreshTokens(
+      reqUser.id,
+      bearerToken,
+    );
+    if (!tokens) throw new InternalServerErrorException("Invalid Token");
+
+    return tokens;
   }
 
   @Get("profile")
   @UseGuards(JwtAuthGuard)
   getProfile(@Req() req: Request) {
+    return {
+      user: req.user,
+    };
+  }
+
+  @Get("profile2")
+  @UseGuards(RefreshTokenGuard)
+  getProfile2(@Req() req: Request) {
     return {
       user: req.user,
     };

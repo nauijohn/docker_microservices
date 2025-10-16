@@ -1,7 +1,7 @@
 name: users
 
 services:
-  service:
+  users_service:
     container_name: users_service
     build:
       context: .

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@nauijohn/docker_microservices_common':
-        specifier: ^0.0.33
-        version: 0.0.33(class-transformer@0.5.1)(class-validator@0.14.2)(passport@0.7.0)
+        specifier: ^0.0.36
+        version: 0.0.36(class-transformer@0.5.1)(class-validator@0.14.2)(passport@0.7.0)
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -674,8 +674,8 @@ packages:
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
-  '@nauijohn/docker_microservices_common@0.0.33':
-    resolution: {integrity: sha512-3jEXJDE+g0I9fdAWcPobNObudkyw6tlfOAzI0lMKP5GpD61qK6CPCjSIQE5kB9eYgJ7r7xc+bWAuZTNV/sJSug==, tarball: https://npm.pkg.github.com/download/@nauijohn/docker_microservices_common/0.0.33/b3e6bcde125281a4a4c59137e54202f7c98bf38e}
+  '@nauijohn/docker_microservices_common@0.0.36':
+    resolution: {integrity: sha512-ikFSr094S4UzDpuYyVKvc6JncRNmYLJSP/kDe+xtpMratWk8IYuCZGIRWHtQjuK3YzmPrFy9qYFBdNpXPHTVVg==, tarball: https://npm.pkg.github.com/download/@nauijohn/docker_microservices_common/0.0.36/63cec31ef7006eac943770b463a6ff91295989cb}
 
   '@nestjs/cli@11.0.10':
     resolution: {integrity: sha512-4waDT0yGWANg0pKz4E47+nUrqIJv/UqrZ5wLPkCqc7oMGRMWKAaw1NDZ9rKsaqhqvxb2LfI5+uXOWr4yi94DOQ==}
@@ -4068,7 +4068,7 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@nauijohn/docker_microservices_common@0.0.33(class-transformer@0.5.1)(class-validator@0.14.2)(passport@0.7.0)':
+  '@nauijohn/docker_microservices_common@0.0.36(class-transformer@0.5.1)(class-validator@0.14.2)(passport@0.7.0)':
     dependencies:
       '@nestjs/common': 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/config': 4.0.2(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)

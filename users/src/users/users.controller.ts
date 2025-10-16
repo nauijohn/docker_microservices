@@ -32,11 +32,7 @@ export class UsersController {
   @Get(":id")
   async findOne(@Param("id") id: string) {
     const entity = await this.service.findOne(id);
-
-    if (!entity) {
-      throw new NotFoundException();
-    }
-
+    if (!entity) throw new NotFoundException();
     return entity;
   }
 

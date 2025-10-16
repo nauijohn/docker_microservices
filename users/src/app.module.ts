@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AuthModule } from "./auth/auth.module";
+import { RefreshToken } from "./refresh-tokens/refresh-token.entity";
+import { RefreshTokensModule } from "./refresh-tokens/refresh-tokens.module";
 import { User, UsersModule } from "./users";
 
 @Module({
@@ -22,6 +24,8 @@ import { User, UsersModule } from "./users";
         DB_DATABASE: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRES_IN: Joi.string().default("60m"),
+        JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
+        JWT_REFRESH_TOKEN_EXPIRES_IN: Joi.string().default("7d"),
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -37,7 +41,7 @@ import { User, UsersModule } from "./users";
           username: configService.get("DB_USERNAME"),
           password: configService.get("DB_PASSWORD"),
           database: configService.get("DB_DATABASE"),
-          entities: [User],
+          entities: [User, RefreshToken],
           synchronize: isDev,
           autoLoadEntities: isDev,
         };
@@ -45,6 +49,7 @@ import { User, UsersModule } from "./users";
     }),
     UsersModule,
     AuthModule,
+    RefreshTokensModule,
   ],
 })
 export class AppModule {}

@@ -12,7 +12,7 @@ export class UsersService {
     private readonly repository: Repository<User>,
   ) {}
 
-  create(dto: Partial<User>): Promise<User> {
+  async create(dto: Partial<User>): Promise<User> {
     const entity = this.repository.create(dto);
     return this.repository.save(entity);
   }
@@ -22,10 +22,16 @@ export class UsersService {
   }
 
   findOne(id: string): Promise<User | null> {
-    return this.repository.findOne({ where: { id } });
+    return this.repository.findOne({
+      where: { id },
+      // relations: {
+      //   refreshToken: true,
+      // },
+    });
   }
 
-  update(entity: User): Promise<User> {
+  async update(dto: Partial<User>): Promise<User> {
+    const entity = this.repository.create(dto);
     return this.repository.save(entity);
   }
 
