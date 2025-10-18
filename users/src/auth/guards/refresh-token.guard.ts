@@ -33,7 +33,10 @@ export class RefreshTokenGuard extends AuthGuard("jwt-refresh") {
         throw info;
       }
 
-      if (!TokenExpiredError && !JsonWebTokenError) {
+      if (
+        !(info instanceof TokenExpiredError) &&
+        !(info instanceof JsonWebTokenError)
+      ) {
         console.log("info: ", info);
       }
     }

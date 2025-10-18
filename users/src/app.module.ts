@@ -5,9 +5,9 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AuthModule } from "./auth/auth.module";
-import { RefreshToken } from "./refresh-tokens/refresh-token.entity";
 import { RefreshTokensModule } from "./refresh-tokens/refresh-tokens.module";
-import { User, UsersModule } from "./users";
+import { typeOrmConfigFactory } from "./typeorm.config";
+import { UsersModule } from "./users";
 
 @Module({
   imports: [
@@ -31,21 +31,7 @@ import { User, UsersModule } from "./users";
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const isDev = configService.get<string>("NODE_ENV") === "development";
-
-        return {
-          type: "mysql",
-          host: configService.get("DB_HOST"),
-          port: +configService.get("DB_PORT"),
-          username: configService.get("DB_USERNAME"),
-          password: configService.get("DB_PASSWORD"),
-          database: configService.get("DB_DATABASE"),
-          entities: [User, RefreshToken],
-          synchronize: isDev,
-          autoLoadEntities: isDev,
-        };
-      },
+      useFactory: typeOrmConfigFactory,
     }),
     UsersModule,
     AuthModule,

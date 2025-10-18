@@ -1,15 +1,12 @@
 import type { Request } from "express";
 
-import { JwtAuthGuard } from "@nauijohn/docker_microservices_common";
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   InternalServerErrorException,
   Post,
-  Req,
   UnprocessableEntityException,
   UseGuards,
 } from "@nestjs/common";
@@ -20,11 +17,11 @@ import { AuthService } from "./auth.service";
 import { BearerToken } from "./decorators/bearer-token.decorator";
 import { ReqUser } from "./decorators/req-user.decorator";
 import { SignUpDto } from "./dto";
-import { LocalAuthGuard } from "./local-auth.guard";
-import { RefreshTokenGuard } from "./refresh-token.guard";
+import { LocalAuthGuard } from "./guards/local-auth.guard";
+import { RefreshTokenGuard } from "./guards/refresh-token.guard";
 import { hash } from "./utils/security";
 
-import type { JwtRefreshUser } from "./refresh-token.strategy";
+import type { JwtRefreshUser } from "./strategies/refresh-token.strategy";
 @Controller("auth")
 export class AuthController {
   constructor(
@@ -108,21 +105,5 @@ export class AuthController {
     if (!tokens) throw new InternalServerErrorException("Invalid Token");
 
     return tokens;
-  }
-
-  @Get("profile")
-  @UseGuards(JwtAuthGuard)
-  getProfile(@Req() req: Request) {
-    return {
-      user: req.user,
-    };
-  }
-
-  @Get("profile2")
-  @UseGuards(RefreshTokenGuard)
-  getProfile2(@Req() req: Request) {
-    return {
-      user: req.user,
-    };
   }
 }

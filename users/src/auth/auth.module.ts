@@ -8,8 +8,8 @@ import { RefreshTokensModule } from "../refresh-tokens";
 import { UsersModule } from "../users";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { LocalStrategy } from "./local.strategy";
-import { RefreshTokenStrategy } from "./refresh-token.strategy";
+import { LocalStrategy } from "./strategies/local.strategy";
+import { RefreshTokenStrategy } from "./strategies/refresh-token.strategy";
 
 @Module({
   imports: [

@@ -5,16 +5,15 @@ import { HttpStatus, INestApplication } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { Test, TestingModule } from "@nestjs/testing";
-import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AuthController } from "../src/auth/auth.controller";
-import { AuthModule } from "../src/auth/auth.module";
 import { AuthService } from "../src/auth/auth.service";
-import { LocalStrategy } from "../src/auth/local.strategy";
-import { RefreshTokenStrategy } from "../src/auth/refresh-token.strategy";
+import { LocalStrategy } from "../src/auth/strategies/local.strategy";
+import { RefreshTokenStrategy } from "../src/auth/strategies/refresh-token.strategy";
 import { config } from "../src/main.config";
 import { RefreshToken, RefreshTokensModule } from "../src/refresh-tokens";
 import { User, UsersModule } from "../src/users";
+import { TestCommonModule } from "./utils/test-common.module";
 
 describe("AuthController (e2e)", () => {
   let app: INestApplication<App>;
@@ -22,24 +21,19 @@ describe("AuthController (e2e)", () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        AuthModule,
+        TestCommonModule.forRoot([User, RefreshToken]),
         UsersModule,
         RefreshTokensModule,
-        TypeOrmModule.forRoot({
-          type: "sqlite",
-          database: ":memory:",
-          entities: [User, RefreshToken],
-          synchronize: true,
-          dropSchema: true,
-        }),
         JwtModule.registerAsync({
           inject: [ConfigService],
-          useFactory: (configService: ConfigService) => ({
-            secret: configService.get("JWT_SECRET"),
-            signOptions: {
-              expiresIn: configService.get("JWT_EXPIRES_IN"),
-            },
-          }),
+          useFactory: (configService: ConfigService) => {
+            return {
+              secret: configService.get("JWT_SECRET"),
+              signOptions: {
+                expiresIn: configService.get("JWT_EXPIRES_IN"),
+              },
+            };
+          },
         }),
       ],
       controllers: [AuthController],

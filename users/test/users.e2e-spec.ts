@@ -42,10 +42,9 @@ describe("UsersController (e2e)", () => {
   });
 
   test("create a user", async () => {
-    const x = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .post("/users")
       .set("Accept", "application/json")
       .send({ email: "test@example.com", password: "test123" });
-    console.log("x: ", x);
   });
 });
