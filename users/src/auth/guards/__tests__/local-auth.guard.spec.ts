@@ -9,8 +9,6 @@ describe("LocalAuthGuard", () => {
   let localAuthGuard: LocalAuthGuard;
 
   beforeAll(async () => {
-    // localAuthGuard = new LocalAuthGuard();
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [LocalAuthGuard],
     }).compile();

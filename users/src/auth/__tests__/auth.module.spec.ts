@@ -24,6 +24,10 @@ describe("AuthModule", () => {
     configService = moduleRef.get<ConfigService>(ConfigService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should return correct JWT config from factory", () => {
     const jwtConfig: JwtModuleOptions = {
       secret: configService.get("JWT_SECRET"),

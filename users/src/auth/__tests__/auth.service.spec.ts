@@ -57,7 +57,7 @@ describe("Auth Service", () => {
 
     let mockUser: User;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
       mockUser = {
         id: "1",
         email,
@@ -68,6 +68,10 @@ describe("Auth Service", () => {
       usersServiceSpy["findByEmail"] = jest
         .spyOn(service["usersService"], "findByEmail")
         .mockResolvedValue(mockUser);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
     test("success", async () => {

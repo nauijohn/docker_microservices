@@ -14,7 +14,7 @@ import { JwtRefreshUser } from "../strategies/refresh-token.strategy";
 describe("Auth Controller", () => {
   let controller: AuthController;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [AuthService, UsersService, RefreshTokensService],
